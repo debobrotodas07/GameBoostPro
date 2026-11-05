@@ -24,12 +24,15 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-          cache: 'gradle'
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v3
         with:
           gradle-version: '8.7'
+          cache-disabled: true
+
+      - name: Clean build
+        run: gradle clean --no-daemon
 
       - name: Build Debug APK
         run: gradle :app:assembleDebug --no-daemon --stacktrace
