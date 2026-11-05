@@ -21,8 +21,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Slider
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
@@ -30,8 +28,6 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.SliderDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -45,7 +41,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlin.math.roundToInt
 import com.gameboost.pro.GameBoostApplication
 import com.gameboost.pro.R
 import com.gameboost.pro.ShizukuManager
@@ -92,7 +87,7 @@ fun SettingsScreen() {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = { (context as ComponentActivity).finish() }) {
+            androidx.compose.material3.IconButton(onClick = { (context as ComponentActivity).finish() }) {
                 Icon(Icons.Default.ArrowBack, contentDescription = "Back", tint = Color.White)
             }
             Text(text = stringResource(R.string.settings_title), fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color("#FF3C00"))
@@ -212,117 +207,4 @@ fun SettingsScreen() {
             }
         }
     }
-}
-
-@Composable
-fun SettingToggle(label: String, checked: Boolean, onCheckedChange: (Boolean) -> Unit) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(text = label, fontSize = 14.sp, color = Color.White)
-        Switch(
-            checked = checked,
-            onCheckedChange = onCheckedChange,
-            colors = androidx.compose.material3.SwitchDefaults.colors(
-                thumbColor = Color("#FF3C00"),
-                trackColor = Color("#333333")
-            )
-        )
-    }
-}
-
-@Composable
-fun DefaultSlider(
-    label: String,
-    value: Int,
-    range: IntRange,
-    onValueChange: (Int) -> Unit,
-    valueLabel: (Int) -> String
-) {
-    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(text = label, fontSize = 13.sp, color = Color.White)
-            Text(text = valueLabel(value), fontSize = 13.sp, fontWeight = FontWeight.Medium, color = Color("#FF3C00"))
-        }
-        Slider(
-            modifier = Modifier.fillMaxWidth(),
-            value = value.toFloat(),
-            valueRange = range.start.toFloat()..range.endInclusive.toFloat(),
-            onValueChange = { onValueChange(it.roundToInt()) },
-            colors = SliderDefaults.colors(
-                thumbColor = Color("#FF3C00"),
-                activeTrackColor = Color("#FF3C00"),
-                inactiveTrackColor = Color("#333333")
-            )
-        )
-    }
-}
-
-@Composable
-fun ActionButton(label: String, onClick: () -> Unit) {
-    Button(
-        onClick = onClick,
-        modifier = Modifier.fillMaxWidth().height(44.dp),
-        colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-            containerColor = Color("#1A1A1A"),
-            contentColor = Color.White
-        ),
-        shape = RoundedCornerShape(8.dp)
-    ) {
-        Text(text = label, fontSize = 13.sp, fontWeight = FontWeight.Medium)
-    }
-}
-
-@Composable
-fun InfoRow(label: String, value: String, valueColor: Color = Color("#BBBBBB")) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(text = label, fontSize = 13.sp, color = Color("#888888"))
-        Text(text = value, fontSize = 13.sp, fontWeight = FontWeight.Medium, color = valueColor)
-    }
-}
-
-@Composable
-fun SectionCard(title: String, content: @Composable () -> Unit) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = Color("#111111")),
-        shape = RoundedCornerShape(12.dp)
-    ) {
-        Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Text(text = title, fontSize = 12.sp, fontWeight = FontWeight.Bold, color = Color("#FF3C00"))
-            content()
-        }
-    }
-}
-
-@Composable
-fun GameBoostTheme(content: @Composable () -> Unit) {
-    androidx.compose.material3.MaterialTheme(
-        colorScheme = androidx.compose.material3.darkColorScheme(
-            primary = Color("#FF3C00"),
-            secondary = Color("#00E5FF"),
-            tertiary = Color("#BB86FC"),
-            background = Color("#0A0A0A"),
-            surface = Color("#111111"),
-            onPrimary = Color.White,
-            onSecondary = Color.White,
-            onTertiary = Color.White,
-            onBackground = Color.White,
-            onSurface = Color.White
-        ),
-        typography = androidx.compose.material3.Typography(),
-        shapes = androidx.compose.material3.Shapes(),
-        content = content
-    )
 }
