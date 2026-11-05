@@ -27,6 +27,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -229,7 +230,7 @@ fun MainScreen() {
                         range = 0..100,
                         thumbColor = Color(0xFFFFB74D.toLong()),
                         trackColor = Color(0xFFFFB74D.toLong()),
-                        onValueChange = { cpuGov = it.roundToInt() },
+                        onValueChange = { cpuGov = roundToInt(it) },
                         valueLabel = { "$it%" }
                     )
                     SliderRow(
@@ -238,7 +239,7 @@ fun MainScreen() {
                         range = 0..100,
                         thumbColor = Color(0xFF00E5FF.toLong()),
                         trackColor = Color(0xFF00E5FF.toLong()),
-                        onValueChange = { gpuFreq = it.roundToInt() },
+                        onValueChange = { gpuFreq = roundToInt(it) },
                         valueLabel = { "$it%" }
                     )
                     PriorityRow(
@@ -332,7 +333,7 @@ fun MainScreen() {
                     // Speed multiplier
                     SliderRow(
                         label = stringResource(R.string.speed_multiplier),
-                        value = (speedMultiplier * 100).roundToInt(),
+                        value = roundToInt(speedMultiplier * 100),
                         range = 100..500,
                         thumbColor = Color(0xFFBB86FC.toLong()),
                         trackColor = Color(0xFFBB86FC.toLong()),
@@ -344,9 +345,9 @@ fun MainScreen() {
 
             // ACTIVATE BOOST button
             Button(
-                onClick = applyAll,
+                onClick = { applyAll() },
                 modifier = Modifier.fillMaxWidth().height(56.dp),
-                colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFFFF3C00.toLong()),
                     contentColor = Color.White
                 ),

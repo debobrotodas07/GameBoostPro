@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.spacer
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -150,7 +151,7 @@ fun SettingsScreen() {
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 DefaultSlider(
                     label = stringResource(R.string.default_speed),
-                    value = (defaultSpeed * 100).roundToInt(),
+                    value = roundToInt(defaultSpeed * 100),
                     range = 100..300,
                     onValueChange = { v ->
                         defaultSpeed = v / 100f

@@ -1,5 +1,9 @@
 package com.gameboost.pro.ui
 
+import android.content.Intent
+import android.net.Uri
+import android.os.Bundle
+import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedContent
@@ -14,16 +18,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.spacer
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.ToggleButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.ArrowForward
@@ -96,7 +101,7 @@ fun ShizukuSetupScreen(onFinish: () -> Unit) {
     var step2Done by remember { mutableStateOf(false) }
     var step3Done by remember { mutableStateOf(false) }
     var step4Done by remember { mutableStateOf(false) }
-    val shizukuActive by remember { mutableStateOf(false) }
+    var shizukuActive by remember { mutableStateOf(false) }
     var autoPatch by remember { mutableStateOf(false) }
 
     val scope = rememberCoroutineScope()
@@ -149,7 +154,7 @@ fun ShizukuSetupScreen(onFinish: () -> Unit) {
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     context.startActivity(intent)
                     step1Done = true
-                }, colors = androidx.compose.material3.ButtonDefaults.buttonColors(containerColor = ColorAccent)) {
+                }, colors = ButtonDefaults.buttonColors(containerColor = ColorAccent)) {
                     Text(stringResource(R.string.open_play_store), color = ColorWhite)
                 }
             }
@@ -168,7 +173,7 @@ fun ShizukuSetupScreen(onFinish: () -> Unit) {
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     context.startActivity(intent)
                     step2Done = true
-                }, colors = androidx.compose.material3.ButtonDefaults.buttonColors(containerColor = ColorAccent)) {
+                }, colors = ButtonDefaults.buttonColors(containerColor = ColorAccent)) {
                     Text(stringResource(R.string.open_dev_options), color = ColorWhite)
                 }
             }
@@ -190,7 +195,7 @@ fun ShizukuSetupScreen(onFinish: () -> Unit) {
                             checkShizuku()
                         }
                     }
-                }, colors = androidx.compose.material3.ButtonDefaults.buttonColors(containerColor = ColorAccent),
+                }, colors = ButtonDefaults.buttonColors(containerColor = ColorAccent),
                     enabled = !shizukuActive) {
                     Text(stringResource(R.string.grant_permission), color = ColorWhite)
                 }
@@ -220,7 +225,7 @@ fun ShizukuSetupScreen(onFinish: () -> Unit) {
                     val prefs = context.getSharedPreferences("gb_prefs", 0)
                     prefs.edit().putBoolean("auto_patch", autoPatch).apply()
                     onFinish()
-                }, colors = androidx.compose.material3.ButtonDefaults.buttonColors(containerColor = ColorAccent),
+                }, colors = ButtonDefaults.buttonColors(containerColor = ColorAccent),
                     modifier = Modifier.fillMaxWidth()) {
                     Text(stringResource(R.string.continue_button), color = ColorWhite, fontSize = 16.sp)
                 }

@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.spacer
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
@@ -21,13 +22,17 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -42,8 +47,6 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material.icons.filled.Wifi
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.material.icons.filled.ToggleButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -57,7 +60,6 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.graphics.ColorMatrixColorFilter
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.input.pointer.detectTapGestures
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -128,9 +130,11 @@ fun SettingToggle(label: String, checked: Boolean, onCheckedChange: (Boolean) ->
         Switch(
             checked = checked,
             onCheckedChange = onCheckedChange,
-            colors = androidx.compose.material3.SwitchDefaults.colors(
-                thumbColor = Color(0xFFFF3C00.toLong()),
-                trackColor = Color(0xFF333333.toLong())
+            colors = SwitchDefaults.colors(
+                checkedThumbColor = Color(0xFFFF3C00.toLong()),
+                checkedTrackColor = Color(0xFF333333.toLong()),
+                uncheckedThumbColor = Color(0xFFFFFFFF.toLong()),
+                uncheckedTrackColor = Color(0xFF333333.toLong())
             )
         )
     }
@@ -157,7 +161,7 @@ fun DefaultSlider(
             value = value.toFloat(),
             valueRange = range.start.toFloat()..range.endInclusive.toFloat(),
             onValueChange = { onValueChange(it.roundToInt()) },
-            colors = androidx.compose.material3.SliderDefaults.colors(
+            colors = SliderDefaults.colors(
                 thumbColor = Color(0xFFFF3C00.toLong()),
                 activeTrackColor = Color(0xFFFF3C00.toLong()),
                 inactiveTrackColor = Color(0xFF333333.toLong())
@@ -171,7 +175,7 @@ fun ActionButton(label: String, onClick: () -> Unit) {
     Button(
         onClick = onClick,
         modifier = Modifier.fillMaxWidth().height(44.dp),
-        colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+        colors = ButtonDefaults.buttonColors(
             containerColor = Color(0xFF1A1A1A.toLong()),
             contentColor = Color.White
         ),
@@ -272,7 +276,7 @@ fun SliderRow(
             valueRange = range.start.toFloat()..range.endInclusive.toFloat(),
             steps = ((range.endInclusive - range.start) / step).toInt(),
             onValueChange = { onValueChange(it.roundToInt()) },
-            colors = androidx.compose.material3.SliderDefaults.colors(
+            colors = SliderDefaults.colors(
                 thumbColor = thumbColor,
                 activeTrackColor = trackColor,
                 inactiveTrackColor = Color(0xFF333333.toLong())
@@ -346,9 +350,11 @@ fun ToggleRow(
                     onCheckedChange(newVal)
                     expanded = newVal
                 },
-                colors = androidx.compose.material3.SwitchDefaults.colors(
-                    thumbColor = Color(0xFFFF3C00.toLong()),
-                    trackColor = Color(0xFF333333.toLong())
+                colors = SwitchDefaults.colors(
+                    checkedThumbColor = Color(0xFFFF3C00.toLong()),
+                    checkedTrackColor = Color(0xFF333333.toLong()),
+                    uncheckedThumbColor = Color(0xFFFFFFFF.toLong()),
+                    uncheckedTrackColor = Color(0xFF333333.toLong())
                 )
             )
         }
@@ -447,7 +453,7 @@ fun LocationModeRow(
                     modifier = Modifier.fillMaxWidth(1f),
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    colors = androidx.compose.material3.TextFieldDefaults.textFieldColors(
+                    colors = TextFieldDefaults.textFieldColors(
                         containerColor = Color(0xFF1A1A1A.toLong()),
                         unfocusedContainerColor = Color(0xFF1A1A1A.toLong()),
                         focusedContainerColor = Color(0xFF1A1A1A.toLong()),
@@ -465,7 +471,7 @@ fun LocationModeRow(
                     modifier = Modifier.fillMaxWidth(1f),
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    colors = androidx.compose.material3.TextFieldDefaults.textFieldColors(
+                    colors = TextFieldDefaults.textFieldColors(
                         containerColor = Color(0xFF1A1A1A.toLong()),
                         unfocusedContainerColor = Color(0xFF1A1A1A.toLong()),
                         focusedContainerColor = Color(0xFF1A1A1A.toLong()),
@@ -506,7 +512,7 @@ fun LocationModeRow(
                     label = { Text("Preset", color = Color(0xFF888888.toLong()), fontSize = 11.sp) },
                     modifier = Modifier.fillMaxWidth().fillMaxHeight(),
                     readOnly = true,
-                    colors = androidx.compose.material3.TextFieldDefaults.textFieldColors(
+                    colors = TextFieldDefaults.textFieldColors(
                         containerColor = Color(0xFF1A1A1A.toLong()),
                         unfocusedContainerColor = Color(0xFF1A1A1A.toLong()),
                         focusedContainerColor = Color(0xFF1A1A1A.toLong()),
