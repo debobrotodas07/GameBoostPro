@@ -1,0 +1,26 @@
+{
+  "target_lib": "libil2cpp.so",
+  "target_pkg_1": "com.dts.freefireth",
+  "target_pkg_2": "com.dts.freefiremax",
+  "offsets": {
+    "player_list": "0x067E4B20",
+    "local_player": "0x067E4A80",
+    "entity_stride": "0x38",
+    "pos_x": "0x90",
+    "pos_y": "0x94",
+    "pos_z": "0x98",
+    "current_hp": "0x1A8",
+    "max_hp": "0x1AC",
+    "is_alive": "0x1B0",
+    "team_id": "0x1C4",
+    "bone_head": "0x320",
+    "bone_chest": "0x33C",
+    "view_matrix": "0x06A1F2C0",
+    "recoil_x": "0x03B2A140",
+    "recoil_y": "0x03B2A144"
+  },
+  "write_values": {
+    "recoil_zero": "0x00000000",
+    "nop_arm64": "0x1F2003D5"
+  }
+}

@@ -1,0 +1,33 @@
+<resources>
+    <color name="background">#0A0A0A</color>
+    <color name="surface">#111111</color>
+    <color name="surface_variant">#1A1A1A</color>
+    <color name="accent">#FF3C00</color>
+    <color name="accent_alpha_75">#BFFF3C00</color>
+    <color name="accent_alpha_92">#EB0D0D0D</color>
+    <color name="cyan">#00E5FF</color>
+    <color name="green">#69FF47</color>
+    <color name="purple">#BB86FC</color>
+    <color name="orange">#FFB74D</color>
+    <color name="red">#FF3C00</color>
+    <color name="white">#FFFFFF</color>
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#BBBBBB</color>
+    <color name="text_muted">#888888</color>
+    <color name="border">#222222</color>
+    <color name="border_accent">#FF3C00</color>
+    <color name="chip_inactive">#333333</color>
+    <color name="chip_active">#FF3C00</color>
+    <color name="card_bg">#111111</color>
+    <color name="sidebar_bg">#0D0D0D</color>
+    <color name="sidebar_border">#FF3C00</color>
+    <color name="collapsed_bg">#FF3C00</color>
+    <color name="panic_bg">#333333</color>
+    <color name="slider_thumb_cpu">#FFB74D</color>
+    <color name="slider_thumb_gpu">#00E5FF</color>
+    <color name="slider_thumb_net">#69FF47</color>
+    <color name="slider_thumb_fps">#FF3C00</color>
+    <color name="slider_thumb_smooth">#BB86FC</color>
+    <color name="slider_thumb_fov">#00E5FF</color>
+    <color name="slider_thumb_speed">#BB86FC</color>
+</resources>

@@ -1,0 +1,8 @@
+-keep class com.gameboost.pro.advantage.AdvantageEngine { *; }
+-keepclassmembers class * { native <methods>; }
+-keep class rikka.shizuku.** { *; }
+-keep class com.github.topjohnwu.libsu.** { *; }
+-keep class kotlinx.coroutines.** { *; }
+-dontwarn com.gameboost.pro.**
+-dontwarn rikka.shizuku.**
+-dontwarn com.github.topjohnwu.libsu.**
