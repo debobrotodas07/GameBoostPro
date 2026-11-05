@@ -103,7 +103,7 @@ fun ShizukuSetupScreen(onFinish: () -> Unit) {
     val step3Done by remember { mutableStateOf(false) }
     val step4Done by remember { mutableStateOf(false) }
     val shizukuActive by remember { mutableStateOf(false) }
-    val autoPatch by remember { mutableStateOf(false) }
+    var autoPatch by remember { mutableStateOf(false) }
 
     val scope = rememberCoroutineScope()
 
@@ -210,18 +210,14 @@ fun ShizukuSetupScreen(onFinish: () -> Unit) {
             body = stringResource(R.string.shizuku_step4_body),
             isDone = step4Done,
             extraContent = {
-                androidx.compose.material3.Row(
+                Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = androidx.compose.foundation.layout.Arrangement.SpaceBetween
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(stringResource(R.string.auto_patch_label), color = ColorWhite, fontSize = 14.sp)
                     androidx.compose.material3.Switch(
                         checked = autoPatch,
-                        onCheckedChange = { autoPatch = it },
-                        colors = androidx.compose.material3.SwitchDefaults.colors(
-                            thumbColor = ColorAccent,
-                            trackColor = ColorTrackGray2
-                        )
+                        onCheckedChange = { autoPatch = it }
                     )
                 }
             },
