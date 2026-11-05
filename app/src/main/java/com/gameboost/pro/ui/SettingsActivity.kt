@@ -28,6 +28,10 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Slider
+import androidx.compose.material3.IconButton
+import kotlin.math.roundToInt
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -87,7 +91,7 @@ fun SettingsScreen() {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            androidx.compose.material3.IconButton(onClick = { (context as ComponentActivity).finish() }) {
+            IconButton(onClick = { (context as ComponentActivity).finish() }) {
                 Icon(Icons.Default.ArrowBack, contentDescription = "Back", tint = Color.White)
             }
             Text(text = stringResource(R.string.settings_title), fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color("#FF3C00"))
@@ -249,7 +253,7 @@ fun DefaultSlider(
             value = value.toFloat(),
             valueRange = range.start.toFloat()..range.endInclusive.toFloat(),
             onValueChange = { onValueChange(it.roundToInt()) },
-            colors = androidx.compose.material3.SliderDefaults.colors(
+            colors = SliderDefaults.colors(
                 thumbColor = Color("#FF3C00"),
                 activeTrackColor = Color("#FF3C00"),
                 inactiveTrackColor = Color("#333333")

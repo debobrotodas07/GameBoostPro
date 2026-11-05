@@ -7,9 +7,8 @@ import com.gameboost.pro.AimbotEngine
 class GameBoostAccessibilityService : AccessibilityService() {
 
     companion object {
+        @Suppress("UNUSED_PROPERTY")
         var instance: GameBoostAccessibilityService? = null
-            @Suppress("UNUSED_PROPERTY")
-            private set
     }
 
     override fun onCreate() {
