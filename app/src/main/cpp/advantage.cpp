@@ -5,6 +5,7 @@
 #include <cstring>
 #include <vector>
 #include <string>
+#include <unistd.h>
 
 #define LOG_TAG "AdvantageEngine"
 #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
@@ -36,7 +37,7 @@ static void install_clock_hook() {
         if (orig_clock_gettime) {
             void* plt = dlsym(RTLD_DEFAULT, "clock_gettime");
             if (plt && plt != orig_clock_gettime) {
-                size_t page_size = sysconf(_SC_PAGESIZE);
+                size_t page_size = getpagesize();
                 uintptr_t addr = reinterpret_cast<uintptr_t>(plt);
                 uintptr_t page_start = addr & ~(page_size - 1);
                 if (mprotect(reinterpret_cast<void*>(page_start), page_size,
@@ -48,7 +49,7 @@ static void install_clock_hook() {
                     ptr[2] = 0x00;
                     ptr[3] = 0x14; // b #8
                     *reinterpret_cast<uintptr_t*>(ptr + 4) = target;
-                    __builtin___clear_cache(ptr, ptr + 12);
+                    __builtin___clear_cache(reinterpret_cast<char*>(ptr), reinterpret_cast<char*>(ptr + 12));
                     mprotect(reinterpret_cast<void*>(page_start), page_size,
                              PROT_READ | PROT_EXEC);
                     LOGD("clock_gettime hooked at %p", plt);
@@ -147,7 +148,7 @@ Java_com_gameboost_pro_advantage_AdvantageEngine_patchMemoryValue(
         return JNI_FALSE;
     }
 
-    size_t page_size = sysconf(_SC_PAGESIZE);
+    size_t page_size = getpagesize();
     uint8_t* scan_ptr = reinterpret_cast<uint8_t*>(lib_base);
     bool patched = false;
 
@@ -166,7 +167,7 @@ Java_com_gameboost_pro_advantage_AdvantageEngine_patchMemoryValue(
         if (!found.empty()) {
             uint8_t* target = scan_ptr + offset + (found.data() - (scan_ptr + offset));
             memcpy(target, replacement, repl_len);
-            __builtin___clear_cache(target, target + repl_len);
+            __builtin___clear_cache(reinterpret_cast<char*>(target), reinterpret_cast<char*>(target + repl_len));
             patched = true;
             LOGD("Patched %s at offset 0x%lx", lib, offset + (target - scan_ptr));
             break;
