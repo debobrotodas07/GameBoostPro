@@ -19,6 +19,8 @@ class LocationSpoofer(val context: Context) {
     private var currentLon: Double = 0.0
 
     companion object {
+        @Suppress("UNUSED_PROPERTY")
+        var instance: LocationSpoofer? = null
         val LOCATION_PRESETS = mapOf(
             "Tokyo JP" to Pair(35.6762, 139.6503),
             "London UK" to Pair(51.5074, -0.1278),
@@ -27,6 +29,10 @@ class LocationSpoofer(val context: Context) {
             "Singapore" to Pair(1.3521, 103.8198),
             "Mumbai IN" to Pair(19.0760, 72.8777)
         )
+    }
+
+    init {
+        instance = this
     }
 
     fun start(lat: Double, lon: Double) {

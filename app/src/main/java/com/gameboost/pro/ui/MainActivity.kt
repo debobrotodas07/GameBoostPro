@@ -7,7 +7,9 @@ import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,6 +19,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.spacer
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
@@ -40,6 +43,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,14 +52,13 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.graphics.ColorMatrixColorFilter
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.input.pointer.detectTapGestures
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.roundToInt
 import com.gameboost.pro.AimbotEngine
 import com.gameboost.pro.GameBoostApplication
 import com.gameboost.pro.LocationSpoofer
@@ -65,6 +68,7 @@ import com.gameboost.pro.advantage.AdvantageEngine
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
 class MainActivity : ComponentActivity() {
 
@@ -162,7 +166,7 @@ fun MainScreen() {
         AdvantageEngine.instance?.applySpeedHack(speedMultiplier)
     }
 
-    Box(modifier = Modifier.fillMaxSize().background(Color("#0A0A0A"))) {
+    Box(modifier = Modifier.fillMaxSize().background(Color(0xFF0A0A0A.toLong()))) {
         Column(
             modifier = Modifier.fillMaxSize().padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -177,16 +181,16 @@ fun MainScreen() {
                     text = "GameBoost Pro",
                     fontSize = 22.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color("#FF3C00")
+                    color = Color(0xFFFF3C00.toLong())
                 )
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     BadgeChip(
                         text = if (isRooted) "ROOTED" else "NO ROOT",
-                        color = if (isRooted) Color("#69FF47") else Color("#FF3C00")
+                        color = if (isRooted) Color(0xFF69FF47.toLong()) else Color(0xFFFF3C00.toLong())
                     )
                     BadgeChip(
                         text = if (shizukuActive.value) "SHIZUKU" else "NO SHIZUKU",
-                        color = if (shizukuActive.value) Color("#69FF47") else Color("#888888")
+                        color = if (shizukuActive.value) Color(0xFF69FF47.toLong()) else Color(0xFF888888.toLong())
                     )
                 }
             }
@@ -196,9 +200,9 @@ fun MainScreen() {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                StatCard(title = stringResource(R.string.fps_cap), value = "$fpsTarget", valueColor = Color("#00E5FF"))
-                StatCard(title = stringResource(R.string.cpu_perf), value = "$cpuGov%", valueColor = Color("#69FF47"))
-                StatCard(title = stringResource(R.string.ping_label), value = "--", valueColor = Color("#BB86FC"))
+                StatCard(title = stringResource(R.string.fps_cap), value = "$fpsTarget", valueColor = Color(0xFF00E5FF.toLong()))
+                StatCard(title = stringResource(R.string.cpu_perf), value = "$cpuGov%", valueColor = Color(0xFF69FF47.toLong()))
+                StatCard(title = stringResource(R.string.ping_label), value = "--", valueColor = Color(0xFFBB86FC.toLong()))
             }
 
             // Game picker
@@ -223,8 +227,8 @@ fun MainScreen() {
                         label = stringResource(R.string.cpu_governor),
                         value = cpuGov,
                         range = 0..100,
-                        thumbColor = Color("#FFB74D"),
-                        trackColor = Color("#FFB74D"),
+                        thumbColor = Color(0xFFFFB74D.toLong()),
+                        trackColor = Color(0xFFFFB74D.toLong()),
                         onValueChange = { cpuGov = it.roundToInt() },
                         valueLabel = { "$it%" }
                     )
@@ -232,8 +236,8 @@ fun MainScreen() {
                         label = stringResource(R.string.gpu_frequency),
                         value = gpuFreq,
                         range = 0..100,
-                        thumbColor = Color("#00E5FF"),
-                        trackColor = Color("#00E5FF"),
+                        thumbColor = Color(0xFF00E5FF.toLong()),
+                        trackColor = Color(0xFF00E5FF.toLong()),
                         onValueChange = { gpuFreq = it.roundToInt() },
                         valueLabel = { "$it%" }
                     )
@@ -248,8 +252,8 @@ fun MainScreen() {
                         value = fpsTarget,
                         range = 30..240,
                         step = 30,
-                        thumbColor = Color("#FF3C00"),
-                        trackColor = Color("#FF3C00"),
+                        thumbColor = Color(0xFFFF3C00.toLong()),
+                        trackColor = Color(0xFFFF3C00.toLong()),
                         onValueChange = { fpsTarget = it },
                         valueLabel = { "$it" }
                     )
@@ -272,8 +276,8 @@ fun MainScreen() {
                                         label = stringResource(R.string.smoothness),
                                         value = aimSmooth,
                                         range = 0..80,
-                                        thumbColor = Color("#BB86FC"),
-                                        trackColor = Color("#BB86FC"),
+                                        thumbColor = Color(0xFFBB86FC.toLong()),
+                                        trackColor = Color(0xFFBB86FC.toLong()),
                                         onValueChange = { aimSmooth = it },
                                         valueLabel = { "$it%" }
                                     )
@@ -281,8 +285,8 @@ fun MainScreen() {
                                         label = stringResource(R.string.fov),
                                         value = aimFov,
                                         range = 50..300,
-                                        thumbColor = Color("#00E5FF"),
-                                        trackColor = Color("#00E5FF"),
+                                        thumbColor = Color(0xFF00E5FF.toLong()),
+                                        trackColor = Color(0xFF00E5FF.toLong()),
                                         onValueChange = { aimFov = it },
                                         valueLabel = { "${it}px" }
                                     )
@@ -330,8 +334,8 @@ fun MainScreen() {
                         label = stringResource(R.string.speed_multiplier),
                         value = (speedMultiplier * 100).roundToInt(),
                         range = 100..500,
-                        thumbColor = Color("#BB86FC"),
-                        trackColor = Color("#BB86FC"),
+                        thumbColor = Color(0xFFBB86FC.toLong()),
+                        trackColor = Color(0xFFBB86FC.toLong()),
                         onValueChange = { speedMultiplier = it / 100f },
                         valueLabel = { "${it / 100f}x" }
                     )
@@ -343,7 +347,7 @@ fun MainScreen() {
                 onClick = applyAll,
                 modifier = Modifier.fillMaxWidth().height(56.dp),
                 colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-                    containerColor = Color("#FF3C00"),
+                    containerColor = Color(0xFFFF3C00.toLong()),
                     contentColor = Color.White
                 ),
                 shape = RoundedCornerShape(12.dp)

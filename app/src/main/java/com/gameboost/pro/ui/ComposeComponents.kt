@@ -41,6 +41,9 @@ import androidx.compose.material.icons.filled.Speed
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material.icons.filled.Wifi
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.material.icons.filled.ToggleButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -63,6 +66,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.roundToInt
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.runtime.OptIn
 import com.gameboost.pro.AimbotEngine
 import com.gameboost.pro.GameBoostApplication
 import com.gameboost.pro.LocationSpoofer
@@ -78,11 +83,11 @@ import kotlin.math.roundToInt
 fun GameBoostTheme(content: @Composable () -> Unit) {
     androidx.compose.material3.MaterialTheme(
         colorScheme = androidx.compose.material3.darkColorScheme(
-            primary = Color("#FF3C00"),
-            secondary = Color("#00E5FF"),
-            tertiary = Color("#BB86FC"),
-            background = Color("#0A0A0A"),
-            surface = Color("#111111"),
+            primary = Color(0xFFFF3C00.toLong()),
+            secondary = Color(0xFF00E5FF.toLong()),
+            tertiary = Color(0xFFBB86FC.toLong()),
+            background = Color(0xFF0A0A0A.toLong()),
+            surface = Color(0xFF111111.toLong()),
             onPrimary = Color.White,
             onSecondary = Color.White,
             onTertiary = Color.White,
@@ -99,14 +104,14 @@ fun GameBoostTheme(content: @Composable () -> Unit) {
 fun SectionCard(title: String, content: @Composable () -> Unit) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = Color("#111111")),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFF111111.toLong())),
         shape = RoundedCornerShape(12.dp)
     ) {
         Column(
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Text(text = title, fontSize = 12.sp, fontWeight = FontWeight.Bold, color = Color("#FF3C00"))
+            Text(text = title, fontSize = 12.sp, fontWeight = FontWeight.Bold, color = Color(0xFFFF3C00.toLong()))
             content()
         }
     }
@@ -124,8 +129,8 @@ fun SettingToggle(label: String, checked: Boolean, onCheckedChange: (Boolean) ->
             checked = checked,
             onCheckedChange = onCheckedChange,
             colors = androidx.compose.material3.SwitchDefaults.colors(
-                thumbColor = Color("#FF3C00"),
-                trackColor = Color("#333333")
+                thumbColor = Color(0xFFFF3C00.toLong()),
+                trackColor = Color(0xFF333333.toLong())
             )
         )
     }
@@ -145,7 +150,7 @@ fun DefaultSlider(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(text = label, fontSize = 13.sp, color = Color.White)
-            Text(text = valueLabel(value), fontSize = 13.sp, fontWeight = FontWeight.Medium, color = Color("#FF3C00"))
+            Text(text = valueLabel(value), fontSize = 13.sp, fontWeight = FontWeight.Medium, color = Color(0xFFFF3C00.toLong()))
         }
         Slider(
             modifier = Modifier.fillMaxWidth(),
@@ -153,9 +158,9 @@ fun DefaultSlider(
             valueRange = range.start.toFloat()..range.endInclusive.toFloat(),
             onValueChange = { onValueChange(it.roundToInt()) },
             colors = androidx.compose.material3.SliderDefaults.colors(
-                thumbColor = Color("#FF3C00"),
-                activeTrackColor = Color("#FF3C00"),
-                inactiveTrackColor = Color("#333333")
+                thumbColor = Color(0xFFFF3C00.toLong()),
+                activeTrackColor = Color(0xFFFF3C00.toLong()),
+                inactiveTrackColor = Color(0xFF333333.toLong())
             )
         )
     }
@@ -167,7 +172,7 @@ fun ActionButton(label: String, onClick: () -> Unit) {
         onClick = onClick,
         modifier = Modifier.fillMaxWidth().height(44.dp),
         colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-            containerColor = Color("#1A1A1A"),
+            containerColor = Color(0xFF1A1A1A.toLong()),
             contentColor = Color.White
         ),
         shape = RoundedCornerShape(8.dp)
@@ -177,12 +182,12 @@ fun ActionButton(label: String, onClick: () -> Unit) {
 }
 
 @Composable
-fun InfoRow(label: String, value: String, valueColor: Color = Color("#BBBBBB")) {
+fun InfoRow(label: String, value: String, valueColor: Color = Color(0xFFBBBBBB.toLong())) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(text = label, fontSize = 13.sp, color = Color("#888888"))
+        Text(text = label, fontSize = 13.sp, color = Color(0xFF888888.toLong()))
         Text(text = value, fontSize = 13.sp, fontWeight = FontWeight.Medium, color = valueColor)
     }
 }
@@ -193,7 +198,7 @@ fun StatCard(title: String, value: String, valueColor: Color) {
         modifier = Modifier
             .fillMaxWidth(0.33f)
             .height(72.dp),
-        colors = CardDefaults.cardColors(containerColor = Color("#111111")),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFF111111.toLong())),
         shape = RoundedCornerShape(12.dp)
     ) {
         Column(
@@ -201,7 +206,7 @@ fun StatCard(title: String, value: String, valueColor: Color) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = title, fontSize = 10.sp, color = Color("#888888"))
+            Text(text = title, fontSize = 10.sp, color = Color(0xFF888888.toLong()))
             Text(text = value, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = valueColor)
         }
     }
@@ -213,7 +218,7 @@ fun GameChip(label: String, isSelected: Boolean, onClick: () -> Unit) {
         modifier = Modifier
             .padding(vertical = 4.dp)
             .background(
-                color = if (isSelected) Color("#FF3C00") else Color("#1A1A1A"),
+                color = if (isSelected) Color(0xFFFF3C00.toLong()) else Color(0xFF1A1A1A.toLong()),
                 shape = RoundedCornerShape(20.dp)
             )
             .fillMaxHeight(),
@@ -223,7 +228,7 @@ fun GameChip(label: String, isSelected: Boolean, onClick: () -> Unit) {
             text = label,
             fontSize = 12.sp,
             fontWeight = FontWeight.Medium,
-            color = if (isSelected) Color.White else Color("#BBBBBB")
+            color = if (isSelected) Color.White else Color(0xFFBBBBBB.toLong())
         )
     }.pointerInput(Unit) {
         detectTapGestures(onTap = onClick)
@@ -270,7 +275,7 @@ fun SliderRow(
             colors = androidx.compose.material3.SliderDefaults.colors(
                 thumbColor = thumbColor,
                 activeTrackColor = trackColor,
-                inactiveTrackColor = Color("#333333")
+                inactiveTrackColor = Color(0xFF333333.toLong())
             )
         )
     }
@@ -296,7 +301,7 @@ fun PriorityRow(
                         .fillMaxWidth(1f)
                         .height(36.dp)
                         .background(
-                            color = if (isSel) Color("#FF3C00") else Color("#1A1A1A"),
+                            color = if (isSel) Color(0xFFFF3C00.toLong()) else Color(0xFF1A1A1A.toLong()),
                             shape = RoundedCornerShape(8.dp)
                         ),
                     contentAlignment = Alignment.Center
@@ -305,7 +310,7 @@ fun PriorityRow(
                         text = opt,
                         fontSize = 11.sp,
                         fontWeight = if (isSel) FontWeight.Bold else FontWeight.Normal,
-                        color = if (isSel) Color.White else Color("#BBBBBB")
+                        color = if (isSel) Color.White else Color(0xFFBBBBBB.toLong())
                     )
                 }.pointerInput(Unit) {
                     detectTapGestures(onTap = { onSelect(index) })
@@ -333,7 +338,7 @@ fun ToggleRow(
         ) {
             Column {
                 Text(text = label, fontSize = 14.sp, fontWeight = FontWeight.Medium, color = Color.White)
-                Text(text = subLabel, fontSize = 11.sp, color = Color("#888888"))
+                Text(text = subLabel, fontSize = 11.sp, color = Color(0xFF888888.toLong()))
             }
             Switch(
                 checked = checked,
@@ -342,8 +347,8 @@ fun ToggleRow(
                     expanded = newVal
                 },
                 colors = androidx.compose.material3.SwitchDefaults.colors(
-                    thumbColor = Color("#FF3C00"),
-                    trackColor = Color("#333333")
+                    thumbColor = Color(0xFFFF3C00.toLong()),
+                    trackColor = Color(0xFF333333.toLong())
                 )
             )
         }
@@ -366,7 +371,7 @@ fun BoneSelectorRow(selectedBone: String, onBoneChange: (String) -> Unit) {
                     .fillMaxWidth(1f)
                     .height(32.dp)
                     .background(
-                        color = if (isSel) Color("#FF3C00") else Color("#333333"),
+                        color = if (isSel) Color(0xFFFF3C00.toLong()) else Color(0xFF333333.toLong()),
                         shape = RoundedCornerShape(16.dp)
                     ),
                 contentAlignment = Alignment.Center
@@ -384,6 +389,7 @@ fun BoneSelectorRow(selectedBone: String, onBoneChange: (String) -> Unit) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LocationModeRow(
     selectedMode: Int,
@@ -411,7 +417,7 @@ fun LocationModeRow(
                         .fillMaxWidth(1f)
                         .height(32.dp)
                         .background(
-                            color = if (isSel) Color("#FF3C00") else Color("#333333"),
+                            color = if (isSel) Color(0xFFFF3C00.toLong()) else Color(0xFF333333.toLong()),
                             shape = RoundedCornerShape(16.dp)
                         ),
                     contentAlignment = Alignment.Center
@@ -437,37 +443,37 @@ fun LocationModeRow(
                 androidx.compose.material3.TextField(
                     value = fixedLat,
                     onValueChange = onFixedLatChange,
-                    label = { Text("Lat", color = Color("#888888"), fontSize = 11.sp) },
+                    label = { Text("Lat", color = Color(0xFF888888.toLong()), fontSize = 11.sp) },
                     modifier = Modifier.fillMaxWidth(1f),
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     colors = androidx.compose.material3.TextFieldDefaults.textFieldColors(
-                        containerColor = Color("#1A1A1A"),
-                        unfocusedContainerColor = Color("#1A1A1A"),
-                        focusedContainerColor = Color("#1A1A1A"),
+                        containerColor = Color(0xFF1A1A1A.toLong()),
+                        unfocusedContainerColor = Color(0xFF1A1A1A.toLong()),
+                        focusedContainerColor = Color(0xFF1A1A1A.toLong()),
                         textColor = Color.White,
-                        labelTextColor = Color("#888888"),
-                        cursorColor = Color("#FF3C00"),
-                        focusedIndicatorColor = Color("#FF3C00"),
-                        unfocusedIndicatorColor = Color("#222222")
+                        labelTextColor = Color(0xFF888888.toLong()),
+                        cursorColor = Color(0xFFFF3C00.toLong()),
+                        focusedIndicatorColor = Color(0xFFFF3C00.toLong()),
+                        unfocusedIndicatorColor = Color(0xFF222222.toLong())
                     )
                 )
                 androidx.compose.material3.TextField(
                     value = fixedLon,
                     onValueChange = onFixedLonChange,
-                    label = { Text("Lon", color = Color("#888888"), fontSize = 11.sp) },
+                    label = { Text("Lon", color = Color(0xFF888888.toLong()), fontSize = 11.sp) },
                     modifier = Modifier.fillMaxWidth(1f),
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     colors = androidx.compose.material3.TextFieldDefaults.textFieldColors(
-                        containerColor = Color("#1A1A1A"),
-                        unfocusedContainerColor = Color("#1A1A1A"),
-                        focusedContainerColor = Color("#1A1A1A"),
+                        containerColor = Color(0xFF1A1A1A.toLong()),
+                        unfocusedContainerColor = Color(0xFF1A1A1A.toLong()),
+                        focusedContainerColor = Color(0xFF1A1A1A.toLong()),
                         textColor = Color.White,
-                        labelTextColor = Color("#888888"),
-                        cursorColor = Color("#FF3C00"),
-                        focusedIndicatorColor = Color("#FF3C00"),
-                        unfocusedIndicatorColor = Color("#222222")
+                        labelTextColor = Color(0xFF888888.toLong()),
+                        cursorColor = Color(0xFFFF3C00.toLong()),
+                        focusedIndicatorColor = Color(0xFFFF3C00.toLong()),
+                        unfocusedIndicatorColor = Color(0xFF222222.toLong())
                     )
                 )
             }
@@ -479,8 +485,8 @@ fun LocationModeRow(
                 label = "Radius (km)",
                 value = randomRadius,
                 range = 1..50,
-                thumbColor = Color("#00E5FF"),
-                trackColor = Color("#00E5FF"),
+                thumbColor = Color(0xFF00E5FF.toLong()),
+                trackColor = Color(0xFF00E5FF.toLong()),
                 onValueChange = onRandomRadiusChange,
                 valueLabel = { "${it}km" }
             )
@@ -488,37 +494,38 @@ fun LocationModeRow(
 
         // Preset dropdown
         if (selectedMode == 2) {
+            var expanded by remember { mutableStateOf(false) }
             androidx.compose.material3.ExposedDropdownMenuBox(
                 modifier = Modifier.fillMaxWidth(),
-                expanded = false,
-                onExpandedChange = {}
+                expanded = expanded,
+                onExpandedChange = { expanded = it }
             ) {
                 androidx.compose.material3.TextField(
                     value = selectedPreset,
                     onValueChange = {},
-                    label = { Text("Preset", color = Color("#888888"), fontSize = 11.sp) },
+                    label = { Text("Preset", color = Color(0xFF888888.toLong()), fontSize = 11.sp) },
                     modifier = Modifier.fillMaxWidth().fillMaxHeight(),
                     readOnly = true,
                     colors = androidx.compose.material3.TextFieldDefaults.textFieldColors(
-                        containerColor = Color("#1A1A1A"),
-                        unfocusedContainerColor = Color("#1A1A1A"),
-                        focusedContainerColor = Color("#1A1A1A"),
+                        containerColor = Color(0xFF1A1A1A.toLong()),
+                        unfocusedContainerColor = Color(0xFF1A1A1A.toLong()),
+                        focusedContainerColor = Color(0xFF1A1A1A.toLong()),
                         textColor = Color.White,
-                        labelTextColor = Color("#888888"),
-                        focusedIndicatorColor = Color("#FF3C00"),
-                        unfocusedIndicatorColor = Color("#222222"),
-                        trailingIconColor = Color("#FF3C00")
+                        labelTextColor = Color(0xFF888888.toLong()),
+                        focusedIndicatorColor = Color(0xFFFF3C00.toLong()),
+                        unfocusedIndicatorColor = Color(0xFF222222.toLong()),
+                        trailingIconColor = Color(0xFFFF3C00.toLong())
                     ),
-                    trailingIcon = { Icon(Icons.Default.ArrowDropDown, contentDescription = null, tint = Color("#FF3C00")) }
+                    trailingIcon = { Icon(Icons.Default.ArrowDropDown, contentDescription = null, tint = Color(0xFFFF3C00.toLong())) }
                 )
                 androidx.compose.material3.DropdownMenu(
-                    expanded = false,
-                    onDismissRequest = {}
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false }
                 ) {
                     presets.forEach { preset ->
                         androidx.compose.material3.DropdownMenuItem(
                             text = { Text(preset, color = Color.White) },
-                            onClick = { onPresetChange(preset) }
+                            onClick = { onPresetChange(preset); expanded = false }
                         )
                     }
                 }

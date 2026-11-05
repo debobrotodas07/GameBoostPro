@@ -26,6 +26,15 @@ class AimbotEngine(val context: Context) {
 
     private var tickJob: Job? = null
 
+    companion object {
+        @Suppress("UNUSED_PROPERTY")
+        var instance: AimbotEngine? = null
+    }
+
+    init {
+        instance = this
+    }
+
     fun tick(entities: List<EntityData>, viewMatrix: FloatArray) {
         if (!active) return
         var best: EntityData? = null

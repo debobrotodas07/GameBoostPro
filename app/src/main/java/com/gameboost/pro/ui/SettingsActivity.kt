@@ -16,11 +16,14 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.spacer
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
@@ -41,12 +44,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.roundToInt
 import com.gameboost.pro.GameBoostApplication
 import com.gameboost.pro.R
 import com.gameboost.pro.ShizukuManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
 class SettingsActivity : ComponentActivity() {
 
@@ -78,7 +83,7 @@ fun SettingsScreen() {
     val shizukuHasPerm = ShizukuManager.hasPermission()
 
     Column(
-        modifier = Modifier.fillMaxSize().background(Color("#0A0A0A")).padding(16.dp),
+        modifier = Modifier.fillMaxSize().background(Color(0xFF0A0A0A.toLong())).padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         // Header
@@ -90,8 +95,8 @@ fun SettingsScreen() {
             androidx.compose.material3.IconButton(onClick = { (context as ComponentActivity).finish() }) {
                 Icon(Icons.Default.ArrowBack, contentDescription = "Back", tint = Color.White)
             }
-            Text(text = stringResource(R.string.settings_title), fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color("#FF3C00"))
-            androidx.compose.foundation.layout.Spacer(Modifier.width(48.dp))
+            Text(text = stringResource(R.string.settings_title), fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color(0xFFFF3C00.toLong()))
+            Spacer(Modifier.width(48.dp))
         }
 
         // General section
@@ -201,8 +206,8 @@ fun SettingsScreen() {
         SectionCard(title = "Info") {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 InfoRow(label = stringResource(R.string.version), value = "1.0 (build 1)")
-                InfoRow(label = stringResource(R.string.root_status), value = if (isRooted) "Yes" else "No", valueColor = if (isRooted) Color("#69FF47") else Color("#FF3C00"))
-                InfoRow(label = stringResource(R.string.shizuku_status), value = if (shizukuAvailable && shizukuHasPerm) "Active" else "Inactive", valueColor = if (shizukuAvailable && shizukuHasPerm) Color("#69FF47") else Color("#FF3C00"))
+                InfoRow(label = stringResource(R.string.root_status), value = if (isRooted) "Yes" else "No", valueColor = if (isRooted) Color(0xFF69FF47.toLong()) else Color(0xFFFF3C00.toLong()))
+                InfoRow(label = stringResource(R.string.shizuku_status), value = if (shizukuAvailable && shizukuHasPerm) "Active" else "Inactive", valueColor = if (shizukuAvailable && shizukuHasPerm) Color(0xFF69FF47.toLong()) else Color(0xFFFF3C00.toLong()))
                 InfoRow(label = stringResource(R.string.ndk_version), value = "r26+")
             }
         }

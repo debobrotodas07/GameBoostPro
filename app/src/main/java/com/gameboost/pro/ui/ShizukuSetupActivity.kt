@@ -1,14 +1,9 @@
 package com.gameboost.pro.ui
 
-import android.content.Intent
-import android.net.Uri
-import android.os.Build
-import android.os.Bundle
-import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.tween
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,7 +23,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.ToggleButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
@@ -41,6 +35,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,7 +46,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.unit.dp
 import com.gameboost.pro.R
 import com.gameboost.pro.ShizukuManager
 import dev.rikka.shizuku.Shizuku
@@ -98,10 +92,10 @@ class ShizukuSetupActivity : ComponentActivity() {
 @Composable
 fun ShizukuSetupScreen(onFinish: () -> Unit) {
     val context = LocalContext.current
-    val step1Done by remember { mutableStateOf(false) }
-    val step2Done by remember { mutableStateOf(false) }
-    val step3Done by remember { mutableStateOf(false) }
-    val step4Done by remember { mutableStateOf(false) }
+    var step1Done by remember { mutableStateOf(false) }
+    var step2Done by remember { mutableStateOf(false) }
+    var step3Done by remember { mutableStateOf(false) }
+    var step4Done by remember { mutableStateOf(false) }
     val shizukuActive by remember { mutableStateOf(false) }
     var autoPatch by remember { mutableStateOf(false) }
 
