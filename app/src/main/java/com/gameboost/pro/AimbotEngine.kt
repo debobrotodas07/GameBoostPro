@@ -3,10 +3,14 @@ package com.gameboost.pro
 import android.content.Context
 import android.graphics.Path
 import android.view.accessibility.GestureDescription
+import android.view.accessibility.GestureDescription.StrokeDescription
+import android.view.accessibility.GestureDescription.Builder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 
 class AimbotEngine(val context: Context) {
 
@@ -20,7 +24,7 @@ class AimbotEngine(val context: Context) {
     private val cx = sw / 2f
     private val cy = sh / 2f
 
-    private var tickJob: kotlinx.coroutines.Job? = null
+    private var tickJob: Job? = null
 
     fun tick(entities: List<EntityData>, viewMatrix: FloatArray) {
         if (!active) return
@@ -63,8 +67,8 @@ class AimbotEngine(val context: Context) {
 
     private fun injectSwipe(x1: Float, y1: Float, x2: Float, y2: Float) {
         val path = Path().apply { moveTo(x1, y1); lineTo(x2, y2) }
-        val stroke = GestureDescription.StrokeDescription(path, 0L, 8L)
-        val gesture = GestureDescription.Builder().addStroke(stroke).build()
+        val stroke = StrokeDescription(path, 0L, 8L)
+        val gesture = Builder().addStroke(stroke).build()
         GameBoostAccessibilityService.instance?.dispatchGesture(gesture, null, null)
     }
 

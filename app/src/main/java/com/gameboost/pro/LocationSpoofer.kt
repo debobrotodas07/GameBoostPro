@@ -6,13 +6,15 @@ import android.location.Location
 import android.location.LocationManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 
 class LocationSpoofer(val context: Context) {
 
     private val lm = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-    private var spoofJob: kotlinx.coroutines.Job? = null
+    private var spoofJob: Job? = null
     private var currentLat: Double = 0.0
     private var currentLon: Double = 0.0
 

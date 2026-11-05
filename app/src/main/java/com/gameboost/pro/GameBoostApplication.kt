@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
 import androidx.datastore.preferences.preferencesDataStore
-import androidx.datastore.preferences.Preferences
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -36,7 +35,7 @@ class GameBoostApplication : Application() {
             } catch (e: Exception) {
                 false
             }
-    }
+        }
 
     private fun initializePreferences() {
         CoroutineScope(Dispatchers.IO).launch {
