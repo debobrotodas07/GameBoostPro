@@ -60,6 +60,26 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+// Color constants using Long literals to avoid ambiguity with android.graphics.Color
+private val ColorBackground = Color(0xFF0A0A0A.toLong())
+private val ColorSurface = Color(0xFF111111.toLong())
+private val ColorAccent = Color(0xFFFF3C00.toLong())
+private val ColorGreen = Color(0xFF69FF47.toLong())
+private val ColorCyan = Color(0xFF00E5FF.toLong())
+private val ColorWhite = Color(0xFFFFFFFF.toLong())
+private val ColorTextMuted = Color(0xFFBBBBBB.toLong())
+private val ColorCodeBg = Color(0xFF0A0A0A.toLong())
+private val ColorCodeText = Color(0xFF00E5FF.toLong())
+private val ColorAccentGreen = Color(0xFF69FF47.toLong())
+private val ColorAccentCyan = Color(0xFF00E5FF.toLong())
+private val ColorAccentPurple = Color(0xFFBB86FC.toLong())
+private val ColorTrackGray = Color(0xFF333333.toLong())
+private val ColorCheckGreen = Color(0xFF69FF47.toLong())
+private val ColorAccentRed = Color(0xFFFF3C00.toLong())
+private val ColorWhiteText = Color(0xFFFFFFFF.toLong())
+private val ColorCodeTextCyan = Color(0xFF00E5FF.toLong())
+private val ColorTrackGray2 = Color(0xFF333333.toLong())
+
 class ShizukuSetupActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -106,7 +126,7 @@ fun ShizukuSetupScreen(onFinish: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color("#0A0A0A"))
+            .background(ColorBackground)
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
@@ -119,7 +139,7 @@ fun ShizukuSetupScreen(onFinish: () -> Unit) {
                 text = "GameBoost Pro",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color("#FF3C00")
+                color = ColorAccent
             )
         }
 
@@ -135,8 +155,8 @@ fun ShizukuSetupScreen(onFinish: () -> Unit) {
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     context.startActivity(intent)
                     step1Done = true
-                }, colors = androidx.compose.material3.ButtonDefaults.buttonColors(containerColor = Color("#FF3C00"))) {
-                    Text(stringResource(R.string.open_play_store), color = Color.White)
+                }, colors = androidx.compose.material3.ButtonDefaults.buttonColors(containerColor = ColorAccent)) {
+                    Text(stringResource(R.string.open_play_store), color = ColorWhite)
                 }
             }
         )
@@ -154,8 +174,8 @@ fun ShizukuSetupScreen(onFinish: () -> Unit) {
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     context.startActivity(intent)
                     step2Done = true
-                }, colors = androidx.compose.material3.ButtonDefaults.buttonColors(containerColor = Color("#FF3C00"))) {
-                    Text(stringResource(R.string.open_dev_options), color = Color.White)
+                }, colors = androidx.compose.material3.ButtonDefaults.buttonColors(containerColor = ColorAccent)) {
+                    Text(stringResource(R.string.open_dev_options), color = ColorWhite)
                 }
             }
         )
@@ -166,7 +186,7 @@ fun ShizukuSetupScreen(onFinish: () -> Unit) {
             title = stringResource(R.string.shizuku_step3_title),
             body = stringResource(R.string.shizuku_step3_body),
             isDone = step3Done,
-            statusColor = if (shizukuActive) Color("#69FF47") else Color("#FF3C00"),
+            statusColor = if (shizukuActive) ColorAccentGreen else ColorAccentRed,
             actionButton = {
                 Button(onClick = {
                     ShizukuManager.requestPermission { granted ->
@@ -176,9 +196,9 @@ fun ShizukuSetupScreen(onFinish: () -> Unit) {
                             checkShizuku()
                         }
                     }
-                }, colors = androidx.compose.material3.ButtonDefaults.buttonColors(containerColor = Color("#FF3C00")),
+                }, colors = androidx.compose.material3.ButtonDefaults.buttonColors(containerColor = ColorAccent),
                     enabled = !shizukuActive) {
-                    Text(stringResource(R.string.grant_permission), color = Color.White)
+                    Text(stringResource(R.string.grant_permission), color = ColorWhite)
                 }
             }
         )
@@ -194,13 +214,13 @@ fun ShizukuSetupScreen(onFinish: () -> Unit) {
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = androidx.compose.foundation.layout.Arrangement.SpaceBetween
                 ) {
-                    Text(stringResource(R.string.auto_patch_label), color = Color.White, fontSize = 14.sp)
+                    Text(stringResource(R.string.auto_patch_label), color = ColorWhite, fontSize = 14.sp)
                     androidx.compose.material3.Switch(
                         checked = autoPatch,
                         onCheckedChange = { autoPatch = it },
                         colors = androidx.compose.material3.SwitchDefaults.colors(
-                            thumbColor = Color("#FF3C00"),
-                            trackColor = Color("#333333")
+                            thumbColor = ColorAccent,
+                            trackColor = ColorTrackGray2
                         )
                     )
                 }
@@ -210,9 +230,9 @@ fun ShizukuSetupScreen(onFinish: () -> Unit) {
                     val prefs = context.getSharedPreferences("gb_prefs", 0)
                     prefs.edit().putBoolean("auto_patch", autoPatch).apply()
                     onFinish()
-                }, colors = androidx.compose.material3.ButtonDefaults.buttonColors(containerColor = Color("#FF3C00")),
+                }, colors = androidx.compose.material3.ButtonDefaults.buttonColors(containerColor = ColorAccent),
                     modifier = Modifier.fillMaxWidth()) {
-                    Text(stringResource(R.string.continue_button), color = Color.White, fontSize = 16.sp)
+                    Text(stringResource(R.string.continue_button), color = ColorWhite, fontSize = 16.sp)
                 }
             }
         )
@@ -225,7 +245,7 @@ fun SetupStepCard(
     title: String,
     body: String,
     isDone: Boolean,
-    statusColor: Color = Color("#FF3C00"),
+    statusColor: Color = ColorAccent,
     codeBlock: String? = null,
     extraContent: (@Composable () -> Unit)? = null,
     actionButton: @Composable () -> Unit
@@ -233,8 +253,8 @@ fun SetupStepCard(
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = androidx.compose.material3.CardDefaults.cardColors(
-            containerColor = Color("#111111"),
-            contentColor = Color.White
+            containerColor = ColorSurface,
+            contentColor = ColorWhite
         ),
         shape = RoundedCornerShape(12.dp)
     ) {
@@ -251,34 +271,34 @@ fun SetupStepCard(
                     contentAlignment = Alignment.Center
                 ) {
                     if (isDone) {
-                        Icon(Icons.Default.CheckCircle, contentDescription = null, tint = Color("#69FF47"))
+                        Icon(Icons.Default.CheckCircle, contentDescription = null, tint = ColorAccentGreen)
                     } else {
                         Text(
                             text = number.toString(),
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Bold,
-                            color = Color.White
+                            color = ColorWhite
                         )
                     }
                 }
                 androidx.compose.foundation.layout.Spacer(Modifier.width(12.dp))
                 Column {
-                    Text(text = title, fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color.White)
-                    Text(text = body, fontSize = 13.sp, color = Color("#BBBBBB"))
+                    Text(text = title, fontSize = 16.sp, fontWeight = FontWeight.Bold, color = ColorWhite)
+                    Text(text = body, fontSize = 13.sp, color = ColorTextMuted)
                 }
             }
             codeBlock?.let {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(Color("#0A0A0A"))
+                        .background(ColorCodeBg)
                         .padding(12.dp),
                     contentAlignment = Alignment.CenterStart
                 ) {
                     Text(
                         text = it,
                         fontSize = 11.sp,
-                        color = Color("#00E5FF"),
+                        color = ColorCodeTextCyan,
                         fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace
                     )
                 }
